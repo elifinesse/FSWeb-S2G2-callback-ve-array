@@ -118,17 +118,14 @@ console.log(YillaraGoreKazananlar(fifaData, Finaller, Yillar, Kazananlar));
 	
 */
 
-function OrtalamaGolSayisi(/*callback*/) {
-	/*const mactaGol = callback.map((obje) => {
-		return obje["Home Team Goals"] + obje["Away Team Goals"];
-	});
+function OrtalamaGolSayisi(callback) {
+	const mactaGol = callback.map((obje) => obje["Home Team Goals"] + obje["Away Team Goals"]);
 	const toplamGol = mactaGol.reduce((toplam, goals) => {
-		return toplam + obje;
+		return toplam + goals;
 	}, 0);
-	return (toplamGol / mactaGol.length).toFixed(2);*/
+	return (toplamGol / mactaGol.length).toFixed(2);
 }
-console.log(OrtalamaGolSayisi(Finaller));
-
+console.log(OrtalamaGolSayisi(Finaller(fifaData)));
 
 
 /// EKSTRA ÇALIŞMALAR ///
@@ -139,19 +136,29 @@ console.log(OrtalamaGolSayisi(Finaller));
 	İpucu: "takım kısaltmaları" (team initials) için datada araştırma yapın!
 İpucu: `.reduce` Kullanın*/
 
-function UlkelerinKazanmaSayilari(/* kodlar buraya */) {
-	
-    /* kodlar buraya */
-	
+function UlkelerinKazanmaSayilari(tumData, takim) {
+	const finals = tumData.filter((obje) => obje.Stage === "Final");
+	const win = finals.reduce((total, mac) => {
+		if (mac["Home Team Initials"] === takim && mac["Home Team Goals"] > mac["Away Team Goals"]) {
+			return total + 1;
+		} else if (mac["Away Team Initials"] === takim && mac["Away Team Goals"] > mac["Home Team Goals"]) {
+			return total + 1;
+		} else {
+			return total;
+		}
+		}, 0);
+	return win;
+
 }
+console.log(UlkelerinKazanmaSayilari(fifaData, "BRA"));
 
 
 
 /*  BONUS 2:  
 EnCokGolAtan() isminde bir fonksiyon yazın, `data` yı parametre olarak alsın ve Dünya kupası finallerinde en çok gol atan takımı döndürsün */
 
-function EnCokGolAtan(/* kodlar buraya */) {
-	
+function EnCokGolAtan(tumData) {
+	const finals = tumData.filter((obje) => obje.Stage === "Final");
     /* kodlar buraya */
 	
 }
@@ -160,9 +167,8 @@ function EnCokGolAtan(/* kodlar buraya */) {
 /*  BONUS 3: 
 EnKotuDefans() adında bir fonksiyon yazın, `data` yı parametre olarak alsın ve Dünya kupasında finallerinde en çok golü yiyen takımı döndürsün*/
 
-function EnKotuDefans(/* kodlar buraya */) {
-	
-    /* kodlar buraya */
+function EnKotuDefans(tumData) {
+	const finals = tumData.filter((obje) => obje.Stage === "Final");
 	
 }
 
